@@ -1,5 +1,6 @@
 const db = require('./models')
-
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const postCRUD = async () => { 
     try {
@@ -110,4 +111,47 @@ const postCRUD = async () => {
     }
 }
 
-postCRUD()
+const testBcrypt = async () => {
+    try {
+        // const newUser = await db.User.create({
+        //     username: 'tbfrobinson',
+        //     email: 'tbfrobinson@tbfrobinson.gov',
+        // })
+
+        const newPassword = 'password'
+        const saltRounds = 12
+        // const hashedPass = await bcrypt.hash(newPassword, saltRounds)
+
+        // newUser.password = hashedPass
+        // await newUser.save()
+
+        const foundUser = await db.User.findOne({_id: '64973a0ba181102e1f339d89'})
+        // const match = await bcrypt.compare('password', foundUser.password)
+        console.log(foundUser)
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+const jwtTest = async () => {
+    const foundUser = await db.User.findOne({_id: '64973a0ba181102e1f339d89'})
+
+    const payload = {
+        username: foundUser.username,
+        id: foundUser._id,
+        email: foundUser.email,
+    }
+
+    const secret = process.env.JWT_SECRET
+    const token = jwt.sign(payload, secret)
+    console.log(token)
+
+    const decode = jwt.verify(token, secret)
+    console.log(decode)
+    
+
+}
+
+// postCRUD()
+// testBcrypt()
+jwtTest()
