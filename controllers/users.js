@@ -37,11 +37,11 @@ router.post('/register', async (req, res) => {
             email: newUser.email,
         }
 
-        const token = await jwt.sign(payload, process.env.JWT_SECRET)
+        const token = jwt.sign(payload, process.env.JWT_SECRET)
 
-        res.status(200).json({ token })
+        res.json({ token })
     } catch(err) {
-        console.log(error)
+        console.log(err)
         res.status(500).json({ msg: 'Server Error' })
     }
 })
