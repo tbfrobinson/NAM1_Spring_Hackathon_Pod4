@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -18,6 +19,7 @@ app.get('/', middleware, (req, res) => {
 })
 
 app.use('/users', require('./controllers/users.js'))
+app.use('/posts', require('./controllers/posts.js'))
 
 app.listen(PORT, () => {
     try {
