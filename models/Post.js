@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
 const PostSchema = new mongoose.Schema({
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    pet: {
+    petId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Pet'
     },
@@ -14,6 +14,9 @@ const PostSchema = new mongoose.Schema({
         ref: 'Comment'
     }],
     title: {
+        type: String
+    },
+    image: {
         type: String
     },
     content: {
