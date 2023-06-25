@@ -21,4 +21,7 @@ db.on('error', err => {
 
 module.exports = {
     User: require('./User'),
+    Pet: require('./Pet'),
+    Post: require('./Post'),
+    Comment: require('./Comment'),
 };
