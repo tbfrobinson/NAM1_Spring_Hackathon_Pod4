@@ -47,4 +47,34 @@ router.post('/', upload.single('image'), async(req, res) => {
     }
 })
 
+router.get('/:id', async (req, res) => {
+    try {
+        const getPost = await db.Post.findById(req.params.id).populate('userId').populate('petId').populate('comments')
+        res.json(getPost)
+    } catch(err) {
+        console.log(err)
+        res.status(500).json({ msg: 'Server Error' })
+    }
+})
+
+router.post('/:id/comment', async (req, res) => { 
+    try {
+        const getPost = await db.Post.findById(req.params.id).populate('comments').populate('userId')
+        const getUser = await db.User.findById(req.body.userId)
+        const newComment = await db.Comment.create({ 
+            userId: req.body.userId,
+            postId: req.params.id,
+            content: req.body.content,
+        })
+        getPost.comments.push(newComment._id)
+        await getPost.save()
+        getUser.comments.push(newComment._id)
+        await getUser.save()
+        res.json(getPost)
+    } catch(err) {
+        console.log(err)
+    }
+})
+
+
 module.exports = router
