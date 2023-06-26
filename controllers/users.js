@@ -56,6 +56,38 @@ router.post('/register', async (req, res) => {
     }
 })
 
+// user login route
+router.post('/login', async (req, res) => {
+    try {
+        // similar to register route
+        // find user by username they entered
+        const foundUser = await db.User.findOne({ username: req.body.username })
+        // reject if no username
+        // Here we could say explicitly that the username is not found
+        // but it
+        if (!foundUser) {
+            return res.json({ msg: 'Invalid User Credentials' })
+        }
+
+        const matchedPasswords = await bcrypt.compare(req.body.password, foundUser.password)
+        if (!matchedPasswords) {
+            return res.json({ msg: 'Invalid User Credentials' })
+        }
+
+        const payload = {
+            username: foundUser.username,
+            id: foundUser._id,
+            email: foundUser.email
+        }
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET)
+        res.json({ token })
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ msg: 'Server Error '})
+    }
+})
+
 // users get to get their own profile
 router.get('/:id', async (req, res) => {
     try {
