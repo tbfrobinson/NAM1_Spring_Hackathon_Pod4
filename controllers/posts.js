@@ -13,7 +13,7 @@ const upload = multer({ dest: 'uploads/' })
 
 router.get('/', async (req, res) => {
     try {
-        const posts = await db.Post.find({}).populate('user').populate('pet').sort({ createdAt: 'desc' })   
+        const posts = await db.Post.find({}).populate('userId').populate('petId').sort({ createdAt: 'desc' })   
         res.json(posts)
     } catch(err) {
         console.log(err)

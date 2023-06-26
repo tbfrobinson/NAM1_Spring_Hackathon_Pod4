@@ -10,21 +10,28 @@ const seedPets = async () => {
 
         const pets = [
             {
+                _id: 'dddddddddddd',
                 category: 'Dog'
             },
             {
+                _id: 'cccccccccccc',
                 category: 'Cat'
             },
             {
+                _id: 'bbbbbbbbbbbb',
                 category: 'Bird'
             },
             {
+                _id: 'ffffffffffff',
                 category: 'Fish'
             },
             {
+
+                _id: 'rrrrrrrrrrrr',
                 category: 'Reptile'
             },
             {
+                _id: 'oooooooooooo',
                 category: 'Other'
             },
         ];
@@ -37,7 +44,6 @@ const seedPets = async () => {
         process.exit();
     }
 }
-seedPets();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -59,6 +65,7 @@ app.use('/posts', require('./controllers/posts.js'))
 
 app.listen(PORT, () => {
     try {
+        seedPets();
         console.log(`Server is running on port ${PORT}`)
     }
     catch {
