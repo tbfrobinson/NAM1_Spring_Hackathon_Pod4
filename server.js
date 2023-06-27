@@ -5,9 +5,6 @@ const db = require('./models')
 
 const seedPets = async () => {
     try {
-        await db.Pet.deleteMany({});
-        console.log('Deleted all pets');
-
         const pets = [
             {
                 _id: 'dddddddddddd',
