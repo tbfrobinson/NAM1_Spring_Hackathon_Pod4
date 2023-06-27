@@ -57,6 +57,22 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+router.put('/:id', upload.single('image'), async (req, res) => {
+    try {
+        const getPost = await db.Post.findById(req.params.id)
+        if (req.file) {
+            const cloudImageData = await cloudinary.uploader.upload(req.file.path)
+            getPost.image = cloudImageData.secure_url
+        }
+        getPost.content = req.body.content
+        await getPost.save()
+        res.json(getPost)
+    } catch(err) {
+        console.log(err)
+        res.status(500).json({ msg: 'Server Error' })
+    }
+})
+
 router.post('/:id/comment', async (req, res) => { 
     try {
         const getPost = await db.Post.findById(req.params.id).populate('comments').populate('userId')
