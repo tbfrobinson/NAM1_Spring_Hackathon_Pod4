@@ -64,7 +64,7 @@ app.use('/posts', require('./controllers/posts.js'))
 
 app.listen(PORT, () => {
     try {
-        seedPets();
+        // seedPets();
         console.log(`Server is running on port ${PORT}`)
     }
     catch {
