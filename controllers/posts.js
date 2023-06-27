@@ -92,5 +92,22 @@ router.post('/:id/comment', async (req, res) => {
     }
 })
 
+router.delete('/:id', async (req, res) => {
+    try {
+        const getPost = await db.Post.findById(req.params.id)
+        if (!getPost) {
+            return res.status(404).json({ msg: 'Post not found' })
+        }
+        const getUser = await db.User.findById(getPost.userId)
+        const deletePost = await db.Post.findByIdAndDelete(req.params.id)
+        getUser.posts.remove(req.params.id)
+        await getUser.save()
+        res.sendStatus(204)
+    } catch(err) {
+        console.log(err)
+        res.status(500).json({ msg: 'Server Error' })
+    }
+})
+
 
 module.exports = router
