@@ -19,9 +19,11 @@ router.post('/register', async (req, res) => {
             username: req.body.username
         })
 
+        const checkPasswords = req.body.password === req.body.checkPassword
         // return if either of the above
         if(findUserEmail) return res.status(400).json({ msg: 'Email already tied to an account'})
         if(findUserUsername) return res.status(400).json({ msg: 'Username already tied to an account'})
+        if(!checkPasswords) return res.status(400).json({ msg: 'Passwords do not match' })
 
         // bcrypt up that pword
         const password = req.body.password
